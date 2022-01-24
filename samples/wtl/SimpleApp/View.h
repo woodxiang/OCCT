@@ -60,6 +60,11 @@ public:
 	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnMouseWheel(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
+public:
+	void CloseAll();
+	void OpenStlFile(LPCTSTR szFileName);
+	void CreateShape();
+
 private:
 	void UpdateView();
 

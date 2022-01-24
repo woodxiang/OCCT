@@ -56,3 +56,6 @@ win64
 .vscode/**
 **/wtl/packages/**
 **/wtl/SimpleApp/x64/**
+**/.vs/**
+/samples/wtl/SimpleApp/Debug
+/samples/wtl/SimpleApp/Release

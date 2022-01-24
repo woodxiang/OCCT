@@ -1,11 +1,21 @@
+//=============================================================================
+//
+// SHICHUANG CONFIDENTIAL
+// __________________
+//
+//  [2016] - [2021] SHICHUANG Co., Ltd.
+//  All Rights Reserved.
+//
+//=============================================================================
+
 // MainFrm.h : interface of the CMainFrame class
 //
 /////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-class CMainFrame : 
-	public CFrameWindowImpl<CMainFrame>, 
+class CMainFrame :
+	public CFrameWindowImpl<CMainFrame>,
 	public CUpdateUI<CMainFrame>,
 	public CMessageFilter, public CIdleHandler
 {
@@ -17,7 +27,7 @@ public:
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg)
 	{
-		if(CFrameWindowImpl<CMainFrame>::PreTranslateMessage(pMsg))
+		if (CFrameWindowImpl<CMainFrame>::PreTranslateMessage(pMsg))
 			return TRUE;
 
 		return m_view.PreTranslateMessage(pMsg);
@@ -39,6 +49,7 @@ public:
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		COMMAND_ID_HANDLER(ID_APP_EXIT, OnFileExit)
 		COMMAND_ID_HANDLER(ID_FILE_NEW, OnFileNew)
+		COMMAND_ID_HANDLER(ID_FILE_OPEN, OnFileOpen)
 		COMMAND_ID_HANDLER(ID_VIEW_TOOLBAR, OnViewToolBar)
 		COMMAND_ID_HANDLER(ID_VIEW_STATUS_BAR, OnViewStatusBar)
 		COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
@@ -46,10 +57,10 @@ public:
 		CHAIN_MSG_MAP(CFrameWindowImpl<CMainFrame>)
 	END_MSG_MAP()
 
-// Handler prototypes (uncomment arguments if needed):
-//	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
-//	LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-//	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
+	// Handler prototypes (uncomment arguments if needed):
+	//	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+	//	LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+	//	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
 
 	LRESULT OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{
@@ -105,8 +116,17 @@ public:
 
 	LRESULT OnFileNew(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 	{
-		// TODO: add code to initialize document
+		m_view.CreateShape();
+		return 0;
+	}
 
+	LRESULT OnFileOpen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+	{
+		CFileDialog fileDialog(TRUE, _T("stl"));
+		if (fileDialog.DoModal() == IDOK)
+		{
+			m_view.OpenStlFile(fileDialog.m_ofn.lpstrFile);
+		}
 		return 0;
 	}
 

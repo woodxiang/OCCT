@@ -92,12 +92,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;STRICT;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CSF_OCCTIncludePath)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(CSF_OCCTLibPath)d;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
+      <AdditionalDependencies>Comdlg32.lib;TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -125,12 +127,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CSF_OCCTIncludePath)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(CSF_OCCTLibPath)d;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
+      <AdditionalDependencies>Comdlg32.lib;TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -158,10 +162,12 @@
       <DebugInformationFormat />
       <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CSF_OCCTIncludePath)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
+      <AdditionalDependencies>Comdlg32.lib;TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CSF_OCCTLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
@@ -190,10 +196,12 @@
       <DebugInformationFormat />
       <PreprocessorDefinitions>_WINDOWS;STRICT;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CSF_OCCTIncludePath)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
+      <AdditionalDependencies>Comdlg32.lib;TKernel.lib;TKService.lib;TKOpenGl.lib;TKV3d.lib;TKPrim.lib;TKTopAlgo.lib;TKSTL.lib;TKMeshVS.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CSF_OCCTLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
@@ -243,14 +251,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\..\..\..\OCCT-build\packages\wtl.10.0.10320\build\native\wtl.targets" Condition="Exists('..\..\..\..\OCCT-build\packages\wtl.10.0.10320\build\native\wtl.targets')" />
     <Import Project="..\packages\wtl.10.0.10320\build\native\wtl.targets" Condition="Exists('..\packages\wtl.10.0.10320\build\native\wtl.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\OCCT-build\packages\wtl.10.0.10320\build\native\wtl.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\OCCT-build\packages\wtl.10.0.10320\build\native\wtl.targets'))" />
     <Error Condition="!Exists('..\packages\wtl.10.0.10320\build\native\wtl.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\wtl.10.0.10320\build\native\wtl.targets'))" />
   </Target>
 </Project>

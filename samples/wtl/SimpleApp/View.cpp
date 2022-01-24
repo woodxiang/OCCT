@@ -42,37 +42,6 @@ LRESULT CView::OnCreate(UINT, WPARAM, LPARAM, BOOL&)
 
 	Handle(AIS_InteractiveContext) context = new AIS_InteractiveContext(viewer);
 
-	//BRepPrimAPI_MakeWedge wedgeMaker(10, 20, 30, 3);
-	//TopoDS_Solid shape = wedgeMaker.Solid();
-
-	//Handle(AIS_Shape) shapePres = new AIS_Shape(shape);
-
-	// context->Display(shapePres, AIS_Shaded, 0, true);
-
-	// Load STL
-
-	std::string stlFile = R"(D:\HPDC_STL\Clutch\cast.stl)";
-
-	auto triangulation = RWStl::ReadFile(stlFile.c_str());
-
-	Handle_XSDRAWSTLVRML_DataSource dataSource =
-		new XSDRAWSTLVRML_DataSource(triangulation);
-
-	Handle(MeshVS_Mesh) mesh = new MeshVS_Mesh();
-	mesh->SetDataSource(dataSource);
-	mesh->AddBuilder(new MeshVS_MeshPrsBuilder(mesh), Standard_True);
-
-	auto drawer = mesh->GetDrawer();
-	drawer->SetBoolean(MeshVS_DA_DisplayNodes, Standard_False);
-	drawer->SetBoolean(MeshVS_DA_ShowEdges, Standard_False);
-	mesh->SetMeshSelMethod(MeshVS_MSM_BOX);
-	mesh->SetDisplayMode(MeshVS_DMF_Shading);
-
-	context->Display(mesh, Standard_True);
-
-	view->Redraw();
-	view->Invalidate();
-
 	m_view = view;
 	m_context = context;
 
@@ -154,6 +123,63 @@ LRESULT CView::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
 LRESULT CView::OnMouseWheel(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	return LRESULT();
+}
+
+void CView::CloseAll()
+{
+	m_context->RemoveAll(TRUE);
+}
+
+void CView::OpenStlFile(LPCTSTR szFileName)
+{
+	std::setlocale(LC_ALL, "zh_CN.utf8");
+	std::wstring stlFile = szFileName;
+	std::vector<char> buf(stlFile.length() * 2);
+	size_t sz = 0;
+	do {
+		sz = wcstombs(buf.data(), stlFile.c_str(), buf.size());
+		if (sz == static_cast<std::size_t>(-1))
+		{
+			return;
+		}
+	} while (sz == buf.size());
+
+	std::string fileToRead = buf.data();
+
+	auto triangulation = RWStl::ReadFile(fileToRead.c_str());
+
+	Handle_XSDRAWSTLVRML_DataSource dataSource =
+		new XSDRAWSTLVRML_DataSource(triangulation);
+
+	Handle(MeshVS_Mesh) mesh = new MeshVS_Mesh();
+	mesh->SetDataSource(dataSource);
+	mesh->AddBuilder(new MeshVS_MeshPrsBuilder(mesh), Standard_True);
+
+	auto drawer = mesh->GetDrawer();
+	drawer->SetBoolean(MeshVS_DA_DisplayNodes, Standard_False);
+	drawer->SetBoolean(MeshVS_DA_ShowEdges, Standard_False);
+	mesh->SetMeshSelMethod(MeshVS_MSM_BOX);
+	mesh->SetDisplayMode(MeshVS_DMF_Shading);
+
+	m_context->Display(mesh, Standard_True);
+
+	m_view->FitAll();
+	m_view->Redraw();
+	m_view->Invalidate();
+}
+
+void CView::CreateShape()
+{
+	BRepPrimAPI_MakeWedge wedgeMaker(10, 20, 30, 3);
+	TopoDS_Solid shape = wedgeMaker.Solid();
+
+	Handle(AIS_Shape) shapePres = new AIS_Shape(shape);
+
+	m_context->Display(shapePres, AIS_Shaded, 0, true);
+
+	m_view->FitAll();
+	m_view->Redraw();
+	m_view->Invalidate();
 }
 
 inline void CView::UpdateView()
